@@ -5,7 +5,7 @@ URI Parser (and soon to be URI encoder) in Javascript.
 
 ## Features
 
- - Parses query strings in Javascript `URIParser.query`
+ - Parses query strings in Javascript `URIParser.query` - URL decodes too. 
  - Creates `window.location.query` if included directly as a script.
  - Includes function to extend objects (similar to `jQuery.extend`) `URIParser._extend`
 
