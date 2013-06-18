@@ -1,3 +1,8 @@
+/*!
+ * uri.js v0.1.0
+ * Copyright (c) 2013 Nathaniel Higgins; Licensed MIT
+ * Built on 2013-06-18 
+ */
 (function(undefined) {
 
   'use strict';
