@@ -1,5 +1,5 @@
 /*!
- * uri.js v0.1.0
+ * uri.js v0.1.1
  * Copyright (c) 2013 Nathaniel Higgins; Licensed MIT
  * Built on 2013-06-18 
  */
