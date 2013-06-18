@@ -49,6 +49,22 @@ You can also change which key on the `location` object that the parsed query str
     }   
 }
 
+### Last Resort
+
+If for some reason, you're not using `uri.js` in the browser, and you can't use RequireJS or CommonJS, there are two more ways to use `uri.js`. 
+
+The first way, which isn't advised, is to *fake* being in the browser, by setting the `window` variable to an object before including `uri.js` in your script. `uri.js` will then set the `uri` property on this fake `window` variable. You should also set the `location` property on the fake `window` variable to an object, in order to prevent errors with the query string detection.
+
+The recommended way, however, is to set a callback function that will be passed the `URI` object, before including `uri.js`. There can only be one callback, however, and it has to be named `uriCallback`. You would use it like so.
+
+```js
+var URI;
+var uriCallback = function(uri) {
+    URI = uri;
+};
+
+// Include uri.js
+```
 ## Contributing
 
 If you would like to contribute to `uri.js`, make sure you follow the standard styleguide in place across `uri.js`, and that every feature you write has been tested for. Do NOT increment `version` in `package.json`, or touch the `dist` folder. Any pull requests on the `master` branch will be rejected, please pull request on the `dev` branch.

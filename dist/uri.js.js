@@ -1,7 +1,7 @@
 /*!
  * uri.js v0.1.1
  * Copyright (c) 2013 Nathaniel Higgins; Licensed MIT
- * Built on 2013-06-18 
+ * Built on 2013-06-19 
  */
 (function(undefined) {
 
@@ -140,7 +140,7 @@
     define(function(require, exports, module) {
       module.exports = exports = URI;
     });
-  } else {
+  } else if (typeof window !== 'undefined' && typeof uriCallback === 'undefined') {
     // Being included directly in the browser
     window.URI = URI;
     
@@ -165,5 +165,8 @@
     if (opts.auto || (typeof opts.auto === 'object' && opts.auto.query)) {
       location[opts.keys.query] = URI.query(location.search);
     }
+  } else if (typeof uriCallback === 'function') {
+    // Last resort, pass URI into a callback
+    uriCallback(URI);
   }
 })();

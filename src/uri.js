@@ -135,7 +135,7 @@
     define(function(require, exports, module) {
       module.exports = exports = URI;
     });
-  } else {
+  } else if (typeof window !== 'undefined' && typeof uriCallback === 'undefined') {
     // Being included directly in the browser
     window.URI = URI;
     
@@ -160,5 +160,8 @@
     if (opts.auto || (typeof opts.auto === 'object' && opts.auto.query)) {
       location[opts.keys.query] = URI.query(location.search);
     }
+  } else if (typeof uriCallback === 'function') {
+    // Last resort, pass URI into a callback
+    uriCallback(URI);
   }
 })();
