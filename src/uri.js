@@ -111,7 +111,7 @@
       // Loop through the second object to merge it with the first
       for (var key in two) {
         // If this key actually belongs to the second argument
-        if (typeof two.hasOwnProperty === 'undefined' || two.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(two, key)) {
           var current = two[key];
 
           if (deep && typeof current === 'object' && typeof one[key] === 'object') {
