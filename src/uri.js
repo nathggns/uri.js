@@ -53,7 +53,11 @@
             return query;
         },
 
-        _extend: function() {
+        /**
+         * Deep merge two or more objects
+         * @return {object} Merged version of the arguments
+         */
+        _extend: function(one, two) {
             // If we have more than two objects to merge
             if (arguments.length > 2) {
                 // Get the first object.
@@ -68,9 +72,13 @@
                 return obj;
             }
 
-            // Pull our objects out of the arguments array.
-            var one = arguments[0];
-            var two = arguments[1];
+            // Check our arguments for errors
+            if (typeof one !== 'object' || typeof two !== 'object') {
+                throw {
+                    name: 'ArgumentsError',
+                    message: 'One or more arguments are not objects'
+                }
+            }
 
             // Loop through the second object to merge it with the first
             for (var key in two) {
