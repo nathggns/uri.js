@@ -57,7 +57,7 @@
          * Deep merge two or more objects
          * @return {object} Merged version of the arguments
          */
-        _extend: function(one, two) {
+        extend: function(one, two) {
             // If we have more than two objects to merge
             if (arguments.length > 2) {
                 // Get the first object.
@@ -126,7 +126,7 @@
             location.query_opts = {};
         };
 
-        var opts = URIParser._extend({}, defaults, location.query_opts);
+        var opts = URIParser.extend({}, defaults, location.query_opts);
         delete location['query_opts'];
 
         if (opts.auto || (typeof opts.auto === 'object' && opts.auto.query)) {
