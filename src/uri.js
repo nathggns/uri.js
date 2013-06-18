@@ -1,4 +1,4 @@
-(function(window, undefined) {
+(function(undefined) {
 
     var URI = {
 
@@ -55,36 +55,51 @@
 
         /**
          * Deep merge two or more objects
-         * @param {boolean} Should this be a deep copy or not?
-         * @return {object} Merged version of the arguments
+         * @param {boolean} deep Should this be a deep copy or not?
+         * @return {object}      Merged version of the arguments
          */
-        extend: function(deep, one, two) {
+        extend: function() {
+
+            // If we don't have enough arguments to do anything, just return an object
+            if (arguments.length < 2) {
+                return {};
+            }
 
             // Argument shuffling
-            if (typeof deep !== 'boolean') {
+            if (typeof arguments[0] !== 'boolean') {
                 Array.prototype.unshift.call(arguments, true);
             }
 
+            // Remove the variables we need from the arguments stack.
+            deep = Array.prototype.shift.call(arguments);
+            var one = Array.prototype.shift.call(arguments);
+            var two = Array.prototype.shift.call(arguments);
+
             // If we have more than two objects to merge
-            if (arguments.length > 2) {
-                // Get the first object.
-                // Everything will merge into this.
-                var obj = Array.prototype.shift.call(arguments);
+            if (arguments.length > 0) {
+
+                // Push two back on to the arguments stack, it's no longer special.
+                Array.prototype.unshift.call(arguments, two);
 
                 // While we have any more arguments, call extend with the initial obj and the next argument
                 while (arguments.length > 0) {
-                    obj = arguments.callee(obj, Array.prototype.shift.call(arguments));
+                    two = Array.prototype.shift.call(arguments);
+
+                    if (typeof two !== 'object') continue;
+
+                    one = arguments.callee(deep, one, two);
                 }
 
-                return obj;
+                return one;
             }
 
-            // Check our arguments for errors
-            if (typeof one !== 'object' || typeof two !== 'object') {
-                throw {
-                    name: 'ArgumentsError',
-                    message: 'One or more arguments are not objects'
-                }
+            // Do some checking to force one and two to be objects
+            if (typeof one !== 'object') {
+                one = {};
+            }
+
+            if (typeof two !== 'object') {
+                two = {};
             }
 
             // Loop through the second object to merge it with the first
@@ -95,7 +110,7 @@
 
                     if (deep && typeof current === 'object' && typeof one[key] === 'object') {
                         // Deep copy
-                        one[key] = extend(one[key], current);
+                        one[key] = arguments.callee(one[key], current);
                     } else {
                         one[key] = current;
                     }
@@ -140,4 +155,4 @@
             location[opts.keys.query] = URI.query(location.search);
         }
     }
-})(window);
+})();
