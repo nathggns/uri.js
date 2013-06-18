@@ -55,9 +55,16 @@
 
         /**
          * Deep merge two or more objects
+         * @param {boolean} Should this be a deep copy or not?
          * @return {object} Merged version of the arguments
          */
-        extend: function(one, two) {
+        extend: function(deep, one, two) {
+
+            // Argument shuffling
+            if (typeof deep !== 'boolean') {
+                Array.prototype.unshift.call(arguments, true);
+            }
+
             // If we have more than two objects to merge
             if (arguments.length > 2) {
                 // Get the first object.
@@ -86,7 +93,7 @@
                 if (typeof two.hasOwnProperty === 'undefined' || two.hasOwnProperty(key)) {
                     var current = two[key];
 
-                    if (typeof current === 'object' && typeof one[key] === 'object') {
+                    if (deep && typeof current === 'object' && typeof one[key] === 'object') {
                         // Deep copy
                         one[key] = extend(one[key], current);
                     } else {
