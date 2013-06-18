@@ -1,6 +1,6 @@
 (function(window, undefined) {
 
-    var URIParser = {
+    var URI = {
 
         /**
          * Parse URI query strings
@@ -108,15 +108,15 @@
 
     if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
         // CommonJS, Node, PhantomJS, etc modules
-        module.exports = exports = URIParser;
+        module.exports = exports = URI;
     } else if (typeof define !== 'undefined') {
         // RequireJS Module
         define(function(require, exports, module) {
-            module.exports = exports = URIParser;
+            module.exports = exports = URI;
         });
     } else {
         // Being included directly in the browser
-        window.URIParser = URIParser;
+        window.URI = URI;
         
         var location = window.location;
         var defaults = {
@@ -133,11 +133,11 @@
             location.query_opts = {};
         };
 
-        var opts = URIParser.extend({}, defaults, location.query_opts);
+        var opts = URI.extend({}, defaults, location.query_opts);
         delete location['query_opts'];
 
         if (opts.auto || (typeof opts.auto === 'object' && opts.auto.query)) {
-            location[opts.keys.query] = URIParser.query(location.search);
+            location[opts.keys.query] = URI.query(location.search);
         }
     }
 })(window);
