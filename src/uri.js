@@ -42,7 +42,7 @@
                 }
 
                 // If we actually have a value, URI decode it
-                if (val !== '') {
+                if (val !== '' && decode) {
                     val = decodeURIComponent(val);
                 }
 

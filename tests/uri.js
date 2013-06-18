@@ -28,6 +28,16 @@ describe('URI', function() {
             var parsed = URI.query('?a&b=c');
             parsed.should.eql({ a: '', b: 'c' })
         });
+
+        it('should be decode values', function() {
+            var parsed = URI.query('?a=%3Fa%3Db');
+            parsed.should.eql({ a: '?a=b'});
+        });
+
+        it('should be able to disable decoding values', function() {
+            var parsed = URI.query('?a=%3Fa%3Db', false);
+            parsed.should.eql({ a: '%3Fa%3Db'});
+        });
         
     });
 
