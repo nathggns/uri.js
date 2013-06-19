@@ -35,7 +35,7 @@ URI.query('https://user:pw@example.com:80/a/b?c=d#e');
 URI('https://user:pw@example.com:80/a/b?c=d#e')
 // { query: {
 //    c: 'd'
-// } };
+// }, search: '?c=d' };
 ```
 
 ### In the browser
@@ -98,4 +98,3 @@ mocha tests
  - Port parsing
  - Hash parsing
  - Path parsing
- - Setting the search property on the location-like object

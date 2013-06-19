@@ -22,12 +22,26 @@
     if ('query' in opts) {
       // Parse the query string and assign it to the location
       location.query = URI.query(opts.query);
+      location.search = URI.extract_query(opts.query);
     }
 
     return location;
   };
 
   URI.prototype = {
+
+    /**
+     * Extract a query string from a url
+     * @param  {string} url The url
+     * @return {string}     The extracted query string
+     */
+    extract_query: function(url) {
+      var parts = url.split('?');
+      var part = parts.slice(parts.length === 1 ? 0 : 1);
+      var query_string = part.join('?').split('#')[0];
+
+      return '?' + query_string;
+    },
 
     /**
      * Parse URI query strings
@@ -40,12 +54,10 @@
       if (typeof decode === 'undefined') decode = true;
 
       // Extract query string from url
-      var query_parts = url.split('?');
-      var query_part = query_parts.slice(query_parts.length === 1 ? 0 : 1);
-      var query_string = query_part.join('?').split('#')[0];
+      var query_string = this.extract_query(url);
 
       // Replace the starting ?, if it is there
-      // query_string = query_string.replace(/^\?/, '');
+      query_string = query_string.replace(/^\?/, '');
 
       // Split the query string into key value parts
       var parts = query_string.split('&');
@@ -157,10 +169,16 @@
     }
   };
 
+  var wrap = function(func, obj) {
+    return function() {
+      return func.apply(obj, arguments);
+    };
+  };
+
   // Clone from prototype to function
   for (var k in URI.prototype) {
     if (Object.prototype.hasOwnProperty.call(URI.prototype, k)) {
-      URI[k] = URI.prototype[k];
+      URI[k] = wrap(URI.prototype[k], URI);
     }
   }
 
