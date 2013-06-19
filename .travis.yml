@@ -7,3 +7,5 @@ notifications:
   on_failure: change
   recipients:
    - nat@nath.is
+before_script:
+ - npm install -g grunt-cli
