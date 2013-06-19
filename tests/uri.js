@@ -38,6 +38,11 @@ describe('URI', function() {
       var parsed = URI.query('?a=%3Fa%3Db', false);
       parsed.should.eql({ a: '%3Fa%3Db'});
     });
+    it('should work with full uris', function() {
+      var parsed = URI.query('https://user:pw@example.com:80/a/b?c=d#e');
+
+      parsed.should.eql({ c: 'd' });
+    });
     
   });
 

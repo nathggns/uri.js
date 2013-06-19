@@ -26,6 +26,11 @@ require(['require', 'uri.js'], function(require, URI) {
 
 // As a node module
 var URI = require('uri.js');
+
+// You can also just pass a full url into URI.query
+URI.query('https://user:pw@example.com:80/a/b?c=d#e');
+// { c: 'd' }
+
 ```
 
 ### In the browser
@@ -83,4 +88,8 @@ mocha tests
 ## Todo
 
  - Add query string encoding
- - Full URI parsing.
+ - Protocol Parsing
+ - Host parsing
+ - Port parsing
+ - Hash parsing
+ - Path parsing

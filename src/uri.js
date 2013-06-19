@@ -6,16 +6,21 @@
 
     /**
      * Parse URI query strings
-     * @param  {string} query_string The query string to parse
+     * @param  {string} url        The URL or query string to parse
      * @param  {bool}   decode     Should values be URI decoded?
-     * @return {object}        The decoded query string
+     * @return {object}            The parsed query string
      */
-    query: function(query_string, decode) {
+    query: function(url, decode) {
       // Default decode to true
       if (typeof decode === 'undefined') decode = true;
 
+      // Extract query string from url
+      var query_parts = url.split('?');
+      var query_part = query_parts.slice(query_parts.length === 1 ? 0 : 1);
+      var query_string = query_part.join('?').split('#')[0];
+
       // Replace the starting ?, if it is there
-      query_string = query_string.replace(/^\?/, '');
+      // query_string = query_string.replace(/^\?/, '');
 
       // Split the query string into key value parts
       var parts = query_string.split('&');
