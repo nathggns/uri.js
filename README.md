@@ -13,6 +13,10 @@ URI Parser (and soon to be URI encoder) in Javascript.
 
 Supports use as in many module situations (CommonJS, PhantomJS, RequireJS, NodeJS), or simply including as a script in the browser.
 
+## Node Installation
+
+`npm install uri.js`
+
 ## Usage
 
 ```js
