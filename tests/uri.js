@@ -3,6 +3,26 @@ var should = require('should');
 
 describe('URI', function() {
 
+  it('should parse the query string passed to it', function() {
+    var location = URI('?a=b');
+
+    location.should.have.property('query');
+    location.should.have.property('search');
+
+    location.query.should.eql({ a: 'b' });
+    location.search.should.eql('?a=b');
+  });
+
+  it('should work with full uris', function() {
+    var location = URI('https://user:pw@example.com:80/a/b?c=d#e');
+
+    location.should.have.property('query');
+    location.should.have.property('search');
+
+    location.query.should.eql({ c: 'd' });
+    location.search.should.eql('?c=d');
+  });
+
   describe('query', function() {
 
     it('should have query method', function() {
@@ -38,7 +58,22 @@ describe('URI', function() {
       var parsed = URI.query('?a=%3Fa%3Db', false);
       parsed.should.eql({ a: '%3Fa%3Db'});
     });
+
+    it('should work with full uris', function() {
+      var parsed = URI.query('https://user:pw@example.com:80/a/b?c=d#e');
+
+      parsed.should.eql({ c: 'd' });
+    });
     
+  });
+
+  describe('extract_query', function() {
+
+    it('should work with full urls', function() {
+      var query = URI.extract_query('https://user:pw@example.com:80/a/b?c=d&e=f&g#e');
+
+      query.should.eql('?c=d&e=f&g');
+    });
   });
 
   describe('extend', function() {

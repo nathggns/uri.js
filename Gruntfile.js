@@ -40,7 +40,7 @@ module.exports = function(grunt) {
     },
     watch: {
       files: ['<%= jshint.files %>'],
-      tasks: ['jshint', 'concat', 'uglify']
+      tasks: ['mochacli', 'jshint', 'concat', 'uglify']
     },
     mochacli: {
       options: {
@@ -58,5 +58,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-cli');
 
   grunt.registerTask('test', ['jshint', 'mochacli']);
-  grunt.registerTask('default', ['jshint', 'concat', 'uglify']);
+  grunt.registerTask('default', ['mochacli', 'jshint', 'concat', 'uglify']);
 };

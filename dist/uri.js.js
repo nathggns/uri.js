@@ -1,23 +1,65 @@
 /*!
- * uri.js v0.1.1
+ * uri.js v0.1.2
  * Copyright (c) 2013 Nathaniel Higgins; Licensed MIT
- * Built on 2013-06-18 
+ * Built on 2013-06-19 
  */
 (function(undefined) {
 
   'use strict';
 
-  var URI = {
+  var URI = function(opts) {
+
+    // Make sure we haven't been made via new
+    if (this instanceof URI) {
+      return URI(opts);
+    }
+
+    // Set the retval
+    var location = {};
+
+    // If we've passed in url or url fragment
+    if (typeof opts === 'string') {
+      // Right now we only support query strings, so just set opts to reflect that
+      opts = { query: opts };
+    }
+
+    // If we have a query string
+    if ('query' in opts) {
+      // Parse the query string and assign it to the location
+      location.query = URI.query(opts.query);
+      location.search = URI.extract_query(opts.query);
+    }
+
+    return location;
+  };
+
+  URI.prototype = {
+
+    /**
+     * Extract a query string from a url
+     * @param  {string} url The url
+     * @return {string}     The extracted query string
+     */
+    extract_query: function(url) {
+      var parts = url.split('?');
+      var part = parts.slice(parts.length === 1 ? 0 : 1);
+      var query_string = part.join('?').split('#')[0];
+
+      return '?' + query_string;
+    },
 
     /**
      * Parse URI query strings
-     * @param  {string} query_string The query string to parse
+     * @param  {string} url        The URL or query string to parse
      * @param  {bool}   decode     Should values be URI decoded?
-     * @return {object}        The decoded query string
+     * @return {object}            The parsed query string
      */
-    query: function(query_string, decode) {
+    query: function(url, decode) {
       // Default decode to true
       if (typeof decode === 'undefined') decode = true;
+
+      // Extract query string from url
+      var query_string = this.extract_query(url);
 
       // Replace the starting ?, if it is there
       query_string = query_string.replace(/^\?/, '');
@@ -116,7 +158,7 @@
       // Loop through the second object to merge it with the first
       for (var key in two) {
         // If this key actually belongs to the second argument
-        if (typeof two.hasOwnProperty === 'undefined' || two.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(two, key)) {
           var current = two[key];
 
           if (deep && typeof current === 'object' && typeof one[key] === 'object') {
@@ -132,6 +174,19 @@
     }
   };
 
+  var wrap = function(func, obj) {
+    return function() {
+      return func.apply(obj, arguments);
+    };
+  };
+
+  // Clone from prototype to function
+  for (var k in URI.prototype) {
+    if (Object.prototype.hasOwnProperty.call(URI.prototype, k)) {
+      URI[k] = wrap(URI.prototype[k], URI);
+    }
+  }
+
   if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
     // CommonJS, Node, PhantomJS, etc modules
     module.exports = exports = URI;
@@ -140,7 +195,7 @@
     define(function(require, exports, module) {
       module.exports = exports = URI;
     });
-  } else {
+  } else if (typeof window !== 'undefined' && typeof uriCallback === 'undefined') {
     // Being included directly in the browser
     window.URI = URI;
     
@@ -165,5 +220,8 @@
     if (opts.auto || (typeof opts.auto === 'object' && opts.auto.query)) {
       location[opts.keys.query] = URI.query(location.search);
     }
+  } else if (typeof uriCallback === 'function') {
+    // Last resort, pass URI into a callback
+    uriCallback(URI);
   }
 })();
