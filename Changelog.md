@@ -7,6 +7,7 @@
  - Always run tests in build process
  - Add `uriCallback` method of getting `URI`
  - Passing full URLs to URI.query
+ - Getting Location-like objects by simply calling `URI`. 
 
 ## Version 0.1.1
 

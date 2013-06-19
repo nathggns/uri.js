@@ -31,6 +31,11 @@ var URI = require('uri.js');
 URI.query('https://user:pw@example.com:80/a/b?c=d#e');
 // { c: 'd' }
 
+// You can also just call URI to get a Location-like object. Currently, only supports parsing the query.
+URI('https://user:pw@example.com:80/a/b?c=d#e')
+// { query: {
+//    c: 'd'
+// } };
 ```
 
 ### In the browser
@@ -93,3 +98,4 @@ mocha tests
  - Port parsing
  - Hash parsing
  - Path parsing
+ - Setting the search property on the location-like object

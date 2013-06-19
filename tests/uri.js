@@ -3,6 +3,20 @@ var should = require('should');
 
 describe('URI', function() {
 
+  it('should parse the query string passed to it', function() {
+    var location = URI('?a=b');
+
+    location.should.have.property('query');
+    location.query.should.eql({ a: 'b' });
+  });
+
+  it('should work with full uris', function() {
+    var location = URI('https://user:pw@example.com:80/a/b?c=d#e');
+
+    location.should.have.property('query');
+    location.query.should.eql({ c: 'd' });
+  });
+
   describe('query', function() {
 
     it('should have query method', function() {
@@ -38,6 +52,7 @@ describe('URI', function() {
       var parsed = URI.query('?a=%3Fa%3Db', false);
       parsed.should.eql({ a: '%3Fa%3Db'});
     });
+
     it('should work with full uris', function() {
       var parsed = URI.query('https://user:pw@example.com:80/a/b?c=d#e');
 

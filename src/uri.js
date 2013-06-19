@@ -2,7 +2,32 @@
 
   'use strict';
 
-  var URI = {
+  var URI = function(opts) {
+
+    // Make sure we haven't been made via new
+    if (this instanceof URI) {
+      return URI(opts);
+    }
+
+    // Set the retval
+    var location = {};
+
+    // If we've passed in url or url fragment
+    if (typeof opts === 'string') {
+      // Right now we only support query strings, so just set opts to reflect that
+      opts = { query: opts };
+    }
+
+    // If we have a query string
+    if ('query' in opts) {
+      // Parse the query string and assign it to the location
+      location.query = URI.query(opts.query);
+    }
+
+    return location;
+  };
+
+  URI.prototype = {
 
     /**
      * Parse URI query strings
@@ -131,6 +156,13 @@
       return one;
     }
   };
+
+  // Clone from prototype to function
+  for (var k in URI.prototype) {
+    if (Object.prototype.hasOwnProperty.call(URI.prototype, k)) {
+      URI[k] = URI.prototype[k];
+    }
+  }
 
   if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
     // CommonJS, Node, PhantomJS, etc modules
