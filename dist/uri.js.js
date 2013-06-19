@@ -7,20 +7,50 @@
 
   'use strict';
 
-  var URI = {
+  var URI = function(opts) {
+
+    // Make sure we haven't been made via new
+    if (this instanceof URI) {
+      return URI(opts);
+    }
+
+    // Set the retval
+    var location = {};
+
+    // If we've passed in url or url fragment
+    if (typeof opts === 'string') {
+      // Right now we only support query strings, so just set opts to reflect that
+      opts = { query: opts };
+    }
+
+    // If we have a query string
+    if ('query' in opts) {
+      // Parse the query string and assign it to the location
+      location.query = URI.query(opts.query);
+    }
+
+    return location;
+  };
+
+  URI.prototype = {
 
     /**
      * Parse URI query strings
-     * @param  {string} query_string The query string to parse
+     * @param  {string} url        The URL or query string to parse
      * @param  {bool}   decode     Should values be URI decoded?
-     * @return {object}        The decoded query string
+     * @return {object}            The parsed query string
      */
-    query: function(query_string, decode) {
+    query: function(url, decode) {
       // Default decode to true
       if (typeof decode === 'undefined') decode = true;
 
+      // Extract query string from url
+      var query_parts = url.split('?');
+      var query_part = query_parts.slice(query_parts.length === 1 ? 0 : 1);
+      var query_string = query_part.join('?').split('#')[0];
+
       // Replace the starting ?, if it is there
-      query_string = query_string.replace(/^\?/, '');
+      // query_string = query_string.replace(/^\?/, '');
 
       // Split the query string into key value parts
       var parts = query_string.split('&');
@@ -131,6 +161,13 @@
       return one;
     }
   };
+
+  // Clone from prototype to function
+  for (var k in URI.prototype) {
+    if (Object.prototype.hasOwnProperty.call(URI.prototype, k)) {
+      URI[k] = URI.prototype[k];
+    }
+  }
 
   if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
     // CommonJS, Node, PhantomJS, etc modules
