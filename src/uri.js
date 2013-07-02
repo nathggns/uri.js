@@ -36,11 +36,20 @@
      * @return {string}     The extracted query string
      */
     extract_query: function(url) {
-      var parts = url.split('?');
-      var part = parts.slice(parts.length === 1 ? 0 : 1);
-      var query_string = part.join('?').split('#')[0];
 
-      return '?' + query_string;
+      var query_string;
+
+      // If the url does not have a query, return a blank string
+      if (url.indexOf('?') === -1 && url.indexOf('=') === -1) {
+        query_string = '';
+      } else {
+        var parts = url.split('?');
+        var part = parts.slice(parts.length === 1 ? 0 : 1);
+        query_string = '?' + part.join('?').split('#')[0];
+      }
+
+
+      return query_string;
     },
 
     /**
@@ -59,8 +68,15 @@
       // Replace the starting ?, if it is there
       query_string = query_string.replace(/^\?/, '');
 
-      // Split the query string into key value parts
-      var parts = query_string.split('&');
+      var parts;
+
+      // If query string is blank, parts should be blank
+      if (query_string === '') {
+        parts = [];
+      } else {
+        // Split the query string into key value parts
+        parts = query_string.split('&');
+      }
 
       // Iniate the return value
       var query = {};

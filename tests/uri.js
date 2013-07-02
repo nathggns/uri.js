@@ -23,6 +23,16 @@ describe('URI', function() {
     location.search.should.eql('?c=d');
   });
 
+  it('should work with full uris that have no query', function() {
+    var location = URI('https://user:pw@example.com:80/a/b');
+
+    location.should.have.property('query');
+    location.should.have.property('search');
+
+    location.query.should.eql({});
+    location.search.should.eql('');
+  });
+
   describe('query', function() {
 
     it('should have query method', function() {
@@ -30,21 +40,16 @@ describe('URI', function() {
     });
 
     it('should parse key=val', function() {
-      var parsed = URI.query('a=b');
+      var parsed = URI.query('?a=b');
       parsed.should.eql({ a: 'b' })
     });
 
     it('should parse key', function() {
-      var parsed = URI.query('a');
+      var parsed = URI.query('?a');
       parsed.should.eql({ a: '' })
     });
 
     it('should parse key and key=val', function() {
-      var parsed = URI.query('a&b=c');
-      parsed.should.eql({ a: '', b: 'c' })
-    });
-
-    it('should parse key and key=val with ? at front', function() {
       var parsed = URI.query('?a&b=c');
       parsed.should.eql({ a: '', b: 'c' })
     });
