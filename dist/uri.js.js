@@ -27,7 +27,7 @@
     if ('query' in opts) {
       // Parse the query string and assign it to the location
       location.query = URI.query(opts.query);
-      location.search = URI.extract_query(opts.query);
+      location.search = URI.search(opts.query);
     }
 
     return location;
@@ -40,7 +40,7 @@
      * @param  {string} url The url
      * @return {string}     The extracted query string
      */
-    extract_query: function(url) {
+    search: function(url) {
 
       var query_string;
 
@@ -68,7 +68,7 @@
       if (typeof decode === 'undefined') decode = true;
 
       // Extract query string from url
-      var query_string = this.extract_query(url);
+      var query_string = this.search(url);
 
       // Replace the starting ?, if it is there
       query_string = query_string.replace(/^\?/, '');
