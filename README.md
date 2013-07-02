@@ -88,10 +88,13 @@ If you would like to contribute to `uri.js`, make sure you follow the standard s
 
 ## Tests
 
-`uri.js` uses mocha for its tests.
+`uri.js` uses mocha for its tests. However, we run this via Grunt, which also does some linting for us. `uri.js` is setup so that you can do either of the following to start the test suite - they'll have the same effect.
 
 ```
-mocha tests
+grunt test
+// ...
+
+npm test
 // ...
 ```
 
