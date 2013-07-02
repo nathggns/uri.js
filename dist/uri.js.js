@@ -42,6 +42,11 @@
      */
     search: function(url) {
 
+      // If the URL is an object with toString, do that
+      if (typeof url === 'object' && typeof url.toString === 'function') {
+        url = url.toString();
+      }
+
       var query_string;
 
       // If the url does not have a query, return a blank string

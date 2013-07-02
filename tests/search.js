@@ -10,6 +10,24 @@ describe('URI', function() {
 
       query.should.eql('?c=d&e=f&g');
     });
+
+    it('should work when passing in objects that use toString', function() {
+
+      var f = function(string) {
+        this.string = string;
+      };
+
+      f.prototype.toString = function() {
+        return '?' + this.string;
+      };
+
+      var random = Math.floor(Math.random() * 100000).toString();
+      var obj = new f(random);
+
+      var query = URI.search(obj);
+
+      query.should.eql(obj.toString());
+    });
   });
 
 });
