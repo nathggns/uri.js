@@ -191,6 +191,32 @@
       }
 
       return one;
+    },
+
+    /**
+     * Compile a query object into a string
+     * @param  {Object} object The object to compile
+     * @return {String}        Compiled object
+     */
+    compile: function(object) {
+      var str = '';
+
+      var first = true;
+
+      for (var key in object) {
+        if (Object.prototype.hasOwnProperty.call(object, key)) {
+          var val = object[key];
+
+          str += first ? '?' : '&';
+          str += key;
+          str += '=';
+          str += val;
+
+          first = false;
+        }
+      }
+
+      return str;
     }
   };
 

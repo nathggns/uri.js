@@ -1,15 +1,16 @@
 uri.js
 ======
 
-URI Parser (and soon to be URI encoder) in Javascript. 
+URI Parser (and soon to be URI encoder) in Javascript.
 
 **[Changelog](Changelog.md)**
 
 ## Features
 
- - Parses query strings in Javascript `URI.query` - URL decodes too. 
+ - Parses query strings in Javascript `URI.query` - URL decodes too.
  - Creates `window.location.query` if included directly as a script and configured to do so.
  - Includes function to extend objects (similar to `jQuery.extend`) `URI.extend`
+ - Compile a query object back into a query string `URI.compile`
 
 Supports use as in many module situations (CommonJS, PhantomJS, RequireJS, NodeJS), or simply including as a script in the browser.
 
@@ -60,13 +61,13 @@ You can also change which key on the `location` object that the parsed query str
 {
     keys: {
         query: 'query_string'
-    }   
+    }
 }
 ```
 
 ### Last Resort
 
-If for some reason, you're not using `uri.js` in the browser, and you can't use RequireJS or CommonJS, there are two more ways to use `uri.js`. 
+If for some reason, you're not using `uri.js` in the browser, and you can't use RequireJS or CommonJS, there are two more ways to use `uri.js`.
 
 The first way, which isn't advised, is to *fake* being in the browser, by setting the `window` variable to an object before including `uri.js` in your script. `uri.js` will then set the `uri` property on this fake `window` variable. You should also set the `location` property on the fake `window` variable to an object, in order to prevent errors with the query string detection.
 
