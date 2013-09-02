@@ -1,7 +1,7 @@
 /*!
  * uri.js v0.1.3
  * Copyright (c) 2013 Nathaniel Higgins; Licensed MIT
- * Built on 2013-07-02 
+ * Built on 2013-09-02 
  */
 (function(undefined) {
 
@@ -69,6 +69,10 @@
      * @return {object}            The parsed query string
      */
     query: function(url, decode) {
+
+      // If we're passed an object, convert it to a string
+      if (typeof url === 'object') url = url.toString();
+
       // Default decode to true
       if (typeof decode === 'undefined') decode = true;
 
@@ -99,7 +103,7 @@
 
         if (part.match('=')) {
           // If it is in the format key=val
-          
+
           // Split into the key and value by the = symbol
           var part_parts = part.split('=');
 
@@ -219,7 +223,7 @@
   } else if (typeof window !== 'undefined' && typeof uriCallback === 'undefined') {
     // Being included directly in the browser
     window.URI = URI;
-    
+
     var location = window.location;
     var defaults = {
       auto: {

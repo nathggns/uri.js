@@ -40,7 +40,17 @@ describe('URI', function() {
 
       parsed.should.eql({ c: 'd' });
     });
-    
+
+    it('should work with objects', function() {
+      var parsed = URI.query({
+        toString: function() {
+          return 'https://user:pw@example.com:80/a/b?c=d#e';
+        }
+      });
+
+      parsed.should.eql({ c: 'd' });
+    })
+
   });
 
 });

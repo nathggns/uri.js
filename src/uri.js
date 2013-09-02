@@ -64,6 +64,10 @@
      * @return {object}            The parsed query string
      */
     query: function(url, decode) {
+
+      // If we're passed an object, convert it to a string
+      if (typeof url === 'object') url = url.toString();
+
       // Default decode to true
       if (typeof decode === 'undefined') decode = true;
 
@@ -94,7 +98,7 @@
 
         if (part.match('=')) {
           // If it is in the format key=val
-          
+
           // Split into the key and value by the = symbol
           var part_parts = part.split('=');
 
@@ -214,7 +218,7 @@
   } else if (typeof window !== 'undefined' && typeof uriCallback === 'undefined') {
     // Being included directly in the browser
     window.URI = URI;
-    
+
     var location = window.location;
     var defaults = {
       auto: {
